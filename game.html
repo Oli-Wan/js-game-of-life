@@ -9,7 +9,7 @@
 	<input type="button" value="+" onclick="zoom()"/>
 	<input type="button" value="-" onclick="dezoom()"/>
 
-	<p><span id="info"></span>, Scale : <span id="scale"></span></p>
+	<p><span id="info"></span> Scale : <span id="scale"></span></p>
 	<br/>
 	<br/>
 	<canvas id="game-canvas" width="600" height="600"></canvas>
@@ -71,9 +71,10 @@
 		}
 
 		function dezoom(){
+			if(window.scale == 1)
+				return;
+
 			window.scale--;
-			if(window.scale < 1)
-				window.scale = 1;
 
 			document.getElementById("scale").innerHTML = window.scale;
 			restoreState();
