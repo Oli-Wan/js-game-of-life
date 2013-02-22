@@ -60,24 +60,24 @@
 
 		function startGame(){
 			window.run = setInterval(nextState, 50);
-			$("#start").disabled = true;
+			$("#start").attr("disabled", "disabled");
 		}
 
 		function stopGame(){
 			clearInterval(window.run);
-			$("#start").disabled = false;
+			$("#start").removeAttr("disabled");
 		}
 
 		function oneGeneration(){
 			var date1 = new Date();
 			nextState();
 			var date2 = new Date();
-			$("#info").innerHTML = "Generation time : " + (date2 - date1);
+			$("#info").html( "Generation time : " + (date2 - date1) );
 		}
 
 		function zoom(){
 			window.scale++;
-			$("#scale").innerHTML = window.scale;
+			$("#scale").html( window.scale );
 			restoreState();
 		}
 
@@ -86,7 +86,7 @@
 			if(window.scale < 1)
 				window.scale = 1;
 
-			$("#scale").innerHTML = window.scale;
+			$("#scale").html( window.scale );
 			restoreState();
 		}
 
@@ -115,7 +115,7 @@
 			var refTable = ( newTable == 0 ) ? 1:0;
 
 			var generationNbP = $("#generation-nb");
-			generationNbP.innerHTML = generationNb;
+			generationNbP.html( generationNb );
 
 			var gameCanvas = document.getElementById("game-canvas");
 			var b_context = gameCanvas.getContext("2d");
