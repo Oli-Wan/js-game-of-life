@@ -3,31 +3,42 @@
 	<title>JS Game of life </title>
 </head>
 <body>
-	<input id="start" type="button" value="Start" onclick="startGame()"/>
-	<input id="stop" type="button" value="Pause" onclick="stopGame()"/>
-	<input type="button" value="Next generation" onclick="oneGeneration()"/>
-	<input type="button" value="+" onclick="zoom()"/>
-	<input type="button" value="-" onclick="dezoom()"/>
+	
+	<input id="start" type="button" value="Start" />
+	<input id="stop" type="button" value="Pause" />
+	<input id="next" type="button" value="Next generation" />
+	<input id="zoomin" type="button" value="+" />
+	<input id="zoomout" type="button" value="-" />
 
 	<p><span id="info"></span> Scale : <span id="scale"></span></p>
 	<br/>
 	<br/>
 	<canvas id="game-canvas" width="600" height="600"></canvas>
 	<p id="generation-nb"></p>
-	<script>
-		(function() {
+
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript">
+
+		$(document).ready(function(){
 			window.width = 600;
 			window.height = 600;
 			window.scale = 1;
 			init();
-		})();
+
+			//attaching events
+			$("#start").click(startGame);
+			$("#stop").click(stopGame);
+			$("#next").click(oneGeneration);
+			$("#zoomin").click(zoom);
+			$("#zoomout").click(dezoom);
+		});
 
 		function init(){
 			window.generationCounter = 0;
 			var width = window.width;
 			var height = window.height;
 
-			var canvas = document.getElementById('game-canvas');
+			var canvas = document.getElementById("game-canvas");
 			var b_context = canvas.getContext("2d");
 
 			var gameBoard = new Array(height);
@@ -49,24 +60,24 @@
 
 		function startGame(){
 			window.run = setInterval(nextState, 50);
-			document.getElementById('start').disabled = true;
+			$("#start").attr("disabled", "disabled");
 		}
 
 		function stopGame(){
 			clearInterval(window.run);
-			document.getElementById('start').disabled = false;
+			$("#start").removeAttr("disabled");
 		}
 
 		function oneGeneration(){
 			var date1 = new Date();
 			nextState();
 			var date2 = new Date();
-			document.getElementById('info').innerHTML = "Generation time : " + (date2 - date1);
+			$("#info").html( "Generation time : " + (date2 - date1) );
 		}
 
 		function zoom(){
 			window.scale++;
-			document.getElementById("scale").innerHTML = window.scale;
+			$("#scale").html( window.scale );
 			restoreState();
 		}
 
@@ -76,7 +87,7 @@
 
 			window.scale--;
 
-			document.getElementById("scale").innerHTML = window.scale;
+			$("#scale").html( window.scale );
 			restoreState();
 		}
 
@@ -104,8 +115,8 @@
 			var newTable = window.generationCounter%2;
 			var refTable = ( newTable == 0 ) ? 1:0;
 
-			var generationNbP = document.getElementById("generation-nb");
-			generationNbP.innerHTML = generationNb;
+			var generationNbP = $("#generation-nb");
+			generationNbP.html( generationNb );
 
 			var gameCanvas = document.getElementById("game-canvas");
 			var b_context = gameCanvas.getContext("2d");
