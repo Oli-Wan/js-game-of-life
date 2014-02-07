@@ -1,23 +1,34 @@
 <!DOCTYPE html>
 <html>
-<head>	
-	<title>JS Game of life </title>
+<head>
+    <title>JS Game of life </title>
 </head>
 <body>
-	
-	<input id="start" type="button" value="Start" />
-	<input id="stop" type="button" value="Pause" />
-	<input id="next" type="button" value="Next generation" />
-	<input id="zoomin" type="button" value="+" />
-	<input id="zoomout" type="button" value="-" />
 
-	<p><span id="info"></span> Scale : <span id="scale"></span></p>
-	<br/>
-	<br/>
-	<canvas id="game-canvas" width="600" height="600"></canvas>
-	<p id="generation-nb"></p>
+<input id="start" type="button" value="Start" />
+<input id="stop" type="button" value="Pause" />
+<input id="next" type="button" value="Next generation" />
+<input id="zoomin" type="button" value="+" />
+<input id="zoomout" type="button" value="-" />
 
-	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-	<script type="text/javascript" src="game.js" ></script>
+<ul>
+    <li id="info"></li>
+    <li id="scale"></li>
+</ul>
+<fieldset>
+    <legend>Zoom focus</legend>
+    <label for="xFocus">X</label>
+    <input type="text" id="xFocus" />
+    <label for="yFocus">Y</label>
+    <input type="text" id="yFocus" />
+    <input id="focus" type="button" value="Set focus" />
+</fieldset>
+<br/>
+<br/>
+<canvas id="game-canvas" width="600" height="600"></canvas>
+<p id="generation-nb"></p>
+
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="game.js" ></script>
 </body>
 </html>

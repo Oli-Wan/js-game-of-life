@@ -7,6 +7,7 @@ $(document).ready(function(){
     window.focus.x = 300;
     window.focus.y = 300;
     init();
+    displayScale();
 
     //attaching events
     $("#start").click(startGame);
@@ -59,7 +60,7 @@ function oneGeneration(){
 
 function zoom(){
     window.scale++;
-    $("#scale").html( window.scale );
+    displayScale();
     restoreState();
 }
 
@@ -68,9 +69,12 @@ function dezoom(){
         return;
 
     window.scale--;
-
-    $("#scale").html( window.scale );
+    displayScale();
     restoreState();
+}
+
+function displayScale() {
+    $("#scale").html( window.scale );
 }
 
 function restoreState(){
@@ -100,6 +104,16 @@ function restoreState(){
             }
         }
     }
+    showFocus(b_context);
+}
+
+function showFocus(b_context) {
+    var xFocus = window.focus.x;
+    var yFocus = window.focus.y;
+    b_context.fillStyle = "rgba(200, 0, 0, 0.5)";
+    b_context.fillRect(xFocus, yFocus-10, 5, 25);
+    b_context.fillRect(xFocus-10, yFocus, 25, 5);
+    b_context.fillStyle = "black";
 }
 
 function nextState(){
@@ -189,4 +203,5 @@ function nextState(){
             }
         }
     }
+    showFocus(b_context);
 }
