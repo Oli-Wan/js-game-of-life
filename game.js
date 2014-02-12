@@ -21,8 +21,6 @@ $(document).ready(function(){
     $("#next").click(oneGeneration);
     $("#zoomin").click(zoom);
     $("#zoomout").click(dezoom);
-
-    //$("#game-canvas").click(setFocus)
 });
 
 function init(){
