@@ -14,6 +14,6 @@ router.setDefaultPath("/game.html");
 
 http.createServer(function(request, response) {
     router.route(request,response);
-}).listen("1337");
+}).listen(port);
 
 console.log("Server running on port " + port);
