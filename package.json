@@ -1,7 +1,10 @@
 {
-   "name": "js-game-of-life",
-    "author": "Olivier Schneider <olivier.schneider@opengroupware.ch>",
-    "scripts": {
-        "start": "node server.js"
-    }
+  "name": "js-game-of-life",
+  "author": "Olivier Schneider <olivier.schneider@opengroupware.ch>",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "mime": "~1.2.11"
+  }
 }

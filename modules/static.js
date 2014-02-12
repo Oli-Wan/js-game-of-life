@@ -1,5 +1,6 @@
 var path = require("path"),
     fs = require("fs"),
+    mime = require("mime"),
     errors = require("./errors.js");
 
 exports.create = function(folder) {
@@ -29,7 +30,8 @@ function Static(folder) {
                     return;
                 }
 
-                response.writeHead("200");
+                var contentType = mime.lookup(resPath);
+                response.writeHead("200", {ContentType: contentType});
                 response.end(data);
             });
         });
