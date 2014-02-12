@@ -1,8 +1,7 @@
 var http = require("http"),
     contents = require("./modules/static.js"),
-    errors = require("./modules/errors.js"),
     router = require("./modules/router.js").get(),
-    port  = 1337;
+    port  = 80;
 
 var staticServer = contents.create("content");
 
