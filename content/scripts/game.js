@@ -104,5 +104,5 @@ function GameOfLife(width, height, drawer) {
         self.drawer.showFocus();
     };
 
-    self.restoreState();
+    self.nextGeneration();
 }
