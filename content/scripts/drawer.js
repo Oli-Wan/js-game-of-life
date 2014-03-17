@@ -20,7 +20,6 @@ function Drawer(width, height, canvas) {
     self.zoom = function() {
         self.scale += 1;
         self.calculateRange();
-        self.displayScale();
     };
 
     self.dezoom = function() {
@@ -29,7 +28,6 @@ function Drawer(width, height, canvas) {
 
         self.scale -= 1;
         self.calculateRange();
-        self.displayScale();
     };
 
     self.calculateRange = function() {
@@ -49,10 +47,6 @@ function Drawer(width, height, canvas) {
 
     self.isInRange = function(x,y) {
         return (x > self.range.xMin) && (x < self.range.xMax) && (y > self.range.yMin) && (y < self.range.yMax)
-    };
-
-    self.displayScale = function() {
-        $("#scale").html( self.scale );
     };
 
     self.translateX = function(x) {
