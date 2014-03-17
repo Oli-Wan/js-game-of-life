@@ -1,4 +1,4 @@
-$(document).ready(function(){
+window.addEventListener("load", function() {
     var width = 600,
         height = 600;
 
@@ -8,29 +8,38 @@ $(document).ready(function(){
     var game = new GameOfLife(width, height, drawer);
 
     //attaching events
-    $("#start").click(function(){
+    var start = document.getElementById("start");
+    var stop = document.getElementById("stop");
+    var next = document.getElementById("next");
+    var zoomin = document.getElementById("zoomin");
+    var zoomout = document.getElementById("zoomout");
+    var info = document.getElementById("info");
+
+
+    start.addEventListener("click", function(){
         window.run = setInterval(game.nextGeneration, 50);
-        $("#start").attr("disabled", "disabled");
+        this.disabled = "disabled";
     });
 
-    $("#stop").click(function() {
+
+    stop.addEventListener('click', function() {
         clearInterval(window.run);
-        $("#start").removeAttr("disabled");
+        start.disabled = "";
     });
 
-    $("#next").click(function() {
+    next.addEventListener('click', function() {
         var date1 = new Date();
         game.nextGeneration();
         var date2 = new Date();
-        $("#info").html( "Generation time : " + (date2 - date1) );
+        info.textContent = "Generation time : " + (date2 - date1);
     });
 
-    $("#zoomin").click(function(){
+    zoomin.addEventListener('click', function(){
         drawer.zoom();
         game.restoreState();
     });
 
-    $("#zoomout").click(function(){
+    zoomout.addEventListener('click', function(){
         drawer.dezoom();
         game.restoreState();
     });
