@@ -1,20 +1,23 @@
 function GameOfLife(width, height, drawer) {
     this.width = width;
     this.height = height;
-
-    this.board = new Array(height);
     this.drawer = drawer;
 
+    this.init();
+}
 
-    for (var i = 0; i < height; i++) {
-        var newRow = new Array(width);
-        for (var j = 0; j < width; j++)
+GameOfLife.prototype.init = function() {
+    this.board = new Array(this.height);
+    for (var i = 0; i < this.height; i++) {
+        var newRow = new Array(this.width);
+        for (var j = 0; j < this.width; j++)
             newRow[j] = Math.random() > 0.5;
 
         this.board[i] = newRow;
     }
     this.nextGeneration();
-}
+};
+
 GameOfLife.prototype.nextGeneration = function() {
     var width = this.width,
         height = this.height;

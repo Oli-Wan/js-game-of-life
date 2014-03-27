@@ -14,18 +14,23 @@ window.addEventListener("load", function () {
     var zoomin = document.getElementById("zoomin");
     var zoomout = document.getElementById("zoomout");
     var info = document.getElementById("info");
+    var restart = document.getElementById("restart");
 
 
     start.addEventListener("click", function () {
         window.run = setInterval(function () {
             game.nextGeneration();
         }, 50);
-        this.disabled = "disabled";
+        this.disabled = restart.disabled  = "disabled";
     });
 
     stop.addEventListener('click', function () {
         clearInterval(window.run);
-        start.disabled = "";
+        start.disabled = restart.disabled = "";
+    });
+
+    restart.addEventListener('click',function(){
+       game.init();
     });
 
     next.addEventListener('click', function () {
