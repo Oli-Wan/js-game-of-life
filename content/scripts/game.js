@@ -1,108 +1,103 @@
 function GameOfLife(width, height, drawer) {
-    var self = this;
+    this.width = width;
+    this.height = height;
+    this.drawer = drawer;
 
-    self.scale = 1;
-    self.width = width;
-    self.height = height;
-    self.generation = 0;
+    this.init();
+}
 
-    self.board = new Array(height);
-    self.drawer = drawer;
-
-
-    for(var i = 0; i < height; i++){
-        var newRow = new Array(width);
-        for(var j = 0; j < width; j++)
+GameOfLife.prototype.init = function() {
+    this.board = new Array(this.height);
+    for (var i = 0; i < this.height; i++) {
+        var newRow = new Array(this.width);
+        for (var j = 0; j < this.width; j++)
             newRow[j] = Math.random() > 0.5;
 
-        self.board[i] = newRow;
+        this.board[i] = newRow;
+    }
+    this.nextGeneration();
+};
+
+GameOfLife.prototype.nextGeneration = function() {
+    var width = this.width,
+        height = this.height;
+
+    var newGeneration = [];
+
+    for(var y = 0; y < height; y++){
+        var newRow = [];
+
+        for(var x = 0; x < width; x++){
+
+            var neighbourCount = 0;
+
+            if(y > 0 )
+            {
+                if(this.board[y-1][x])
+                    neighbourCount++;
+
+                if( x > 1)
+                    if(this.board[y-1][x-1])
+                        neighbourCount++;
+                if(x < height-1)
+                    if(this.board[y-1][x+1])
+                        neighbourCount++;
+            }
+
+            if(y < height-1 )
+            {
+                if(this.board[y+1][x])
+                    neighbourCount++;
+
+                if( x > 1)
+                    if(this.board[y+1][x-1])
+                        neighbourCount++;
+                if(x < height-1)
+                    if(this.board[y+1][x+1])
+                        neighbourCount++;
+            }
+
+            if( x > 0)
+                if(this.board[y][x-1])
+                    neighbourCount++;
+
+            if(x < height-1)
+                if(this.board[y][x+1])
+                    neighbourCount++;
+
+            var currentState = this.board[y][x];
+            var newState = currentState;
+
+            if(neighbourCount < 2 && currentState)
+                newState = false;
+
+            if(neighbourCount > 3 && currentState)
+                newState = false;
+
+            if(neighbourCount == 3 && !currentState )
+                newState = true;
+
+            newRow[x] = newState;
+
+            if (newState != currentState) {
+                this.drawer.display(x, y, newState);
+            }
+        }
+        newGeneration[y] = newRow;
     }
 
-    self.nextGeneration = function() {
-        self.generation += 1;
+    this.board = newGeneration;
+    this.drawer.showFocus();
+};
 
-        var width = self.width,
-            height = self.height;
-
-        var newGeneration = [];
-
-        for(var y = 0; y < height; y++){
-            var newRow = [];
-
-            for(var x = 0; x < width; x++){
-
-                var neighbourCount = 0;
-
-                if(y > 0 )
-                {
-                    if(self.board[y-1][x])
-                        neighbourCount++;
-
-                    if( x > 1)
-                        if(self.board[y-1][x-1])
-                            neighbourCount++;
-                    if(x < height-1)
-                        if(self.board[y-1][x+1])
-                            neighbourCount++;
-                }
-
-                if(y < height-1 )
-                {
-                    if(self.board[y+1][x])
-                        neighbourCount++;
-
-                    if( x > 1)
-                        if(self.board[y+1][x-1])
-                            neighbourCount++;
-                    if(x < height-1)
-                        if(self.board[y+1][x+1])
-                            neighbourCount++;
-                }
-
-                if( x > 0)
-                    if(self.board[y][x-1])
-                        neighbourCount++;
-
-                if(x < height-1)
-                    if(self.board[y][x+1])
-                        neighbourCount++;
-
-                var currentState = self.board[y][x];
-                var newState = currentState;
-
-                if(neighbourCount < 2 && currentState)
-                    newState = false;
-
-                if(neighbourCount > 3 && currentState)
-                    newState = false;
-
-                if(neighbourCount == 3 && !currentState )
-                    newState = true;
-
-                newRow[x] = newState;
-
-                if (newState != currentState) {
-                    self.drawer.display(x, y, newState);
-                }
-            }
-            newGeneration[y] = newRow;
+GameOfLife.prototype.restoreState = function() {
+    for(var y = 0; y < this.height; y++){
+        for(var x = 0; x < this.width; x++) {
+            if (this.board[y][x])
+                this.drawer.fill(x,y);
+            else
+                this.drawer.clear(x,y);
         }
-
-        self.board = newGeneration;
-        self.drawer.showFocus();
-    };
-
-    self.restoreState = function() {
-        for(var y = 0; y < self.height; y++){
-            for(var x = 0; x < self.width; x++) {
-                if (self.board[y][x])
-                    self.drawer.fill(x,y);
-                else
-                    self.drawer.clear(x,y);
-            }
-        }
-        self.drawer.showFocus();
-    };
-
-    self.nextGeneration();
-}
+    }
+    this.drawer.showFocus();
+};

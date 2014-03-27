@@ -1,4 +1,4 @@
-window.addEventListener("load", function() {
+window.addEventListener("load", function () {
     var width = 600,
         height = 600;
 
@@ -14,32 +14,38 @@ window.addEventListener("load", function() {
     var zoomin = document.getElementById("zoomin");
     var zoomout = document.getElementById("zoomout");
     var info = document.getElementById("info");
+    var restart = document.getElementById("restart");
 
 
-    start.addEventListener("click", function(){
-        window.run = setInterval(game.nextGeneration, 50);
-        this.disabled = "disabled";
+    start.addEventListener("click", function () {
+        window.run = setInterval(function () {
+            game.nextGeneration();
+        }, 50);
+        this.disabled = restart.disabled  = "disabled";
     });
 
-
-    stop.addEventListener('click', function() {
+    stop.addEventListener('click', function () {
         clearInterval(window.run);
-        start.disabled = "";
+        start.disabled = restart.disabled = "";
     });
 
-    next.addEventListener('click', function() {
+    restart.addEventListener('click',function(){
+       game.init();
+    });
+
+    next.addEventListener('click', function () {
         var date1 = new Date();
         game.nextGeneration();
         var date2 = new Date();
         info.textContent = "Generation time : " + (date2 - date1);
     });
 
-    zoomin.addEventListener('click', function(){
+    zoomin.addEventListener('click', function () {
         drawer.zoom();
         game.restoreState();
     });
 
-    zoomout.addEventListener('click', function(){
+    zoomout.addEventListener('click', function () {
         drawer.dezoom();
         game.restoreState();
     });
