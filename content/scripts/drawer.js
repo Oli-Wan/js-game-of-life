@@ -1,87 +1,83 @@
 function Drawer(width, height, canvas) {
-    var self = this;
+    this.canvas = canvas;
 
-    self.canvas = canvas;
-    self.width = width;
-    self.height = height;
+    this.width = width;
+    this.height = height;
 
-    self.scale = 1;
-    self.focus = {
-        x: height/2,
-        y: width/2
+    this.scale = 2;
+    this.minScale = 2;
+
+    this.focus = {
+        x: height / 2,
+        y: width / 2
     };
-    self.range = {
-        xMax: width,
-        xMin:0,
-        yMax: height,
-        yMin:0
-    };
-
-    self.zoom = function() {
-        self.scale += 1;
-        self.calculateRange();
-    };
-
-    self.dezoom = function() {
-        if(self.scale == 1)
-            return;
-
-        self.scale -= 1;
-        self.calculateRange();
-    };
-
-    self.calculateRange = function() {
-        var scaledWidth = Math.abs(self.width/self.scale/2);
-        var scaledHeight = Math.abs(self.height/self.scale/2);
-
-        var xFocus = self.focus.x;
-        var yFocus = self.focus.y;
-
-        self.range = {
-            xMax:xFocus + scaledWidth,
-            xMin:xFocus - scaledWidth,
-            yMax:yFocus + scaledHeight,
-            yMin:yFocus - scaledHeight
-        };
-    };
-
-    self.isInRange = function(x,y) {
-        return (x > self.range.xMin) && (x < self.range.xMax) && (y > self.range.yMin) && (y < self.range.yMax)
-    };
-
-    self.translateX = function(x) {
-        return x - self.range.xMin;
-    };
-
-    self.translateY = function(x) {
-        return x - self.range.yMin;
-    };
-
-    self.showFocus = function() {
-        var xFocus = self.focus.x;
-        var yFocus = self.focus.y;
-        self.canvas.fillStyle = "rgba(200, 0, 0, 0.5)";
-        self.canvas.fillRect(xFocus, yFocus-10, 5, 25);
-        self.canvas.fillRect(xFocus-10, yFocus, 25, 5);
-        self.canvas.fillStyle = "black";
-    };
-
-    self.display = function(x,  y, alive) {
-        if(self.isInRange(x,y)) {
-            if(alive)
-                self.fill(x, y);
-            else
-                self.clear(x, y);
-        }
-    };
-
-    self.fill = function(x, y) {
-        var scale = self.scale;
-        self.canvas.fillRect((x - self.range.xMin)*scale , (y - self.range.yMin)*scale , scale, scale);
-    };
-
-    self.clear = function(x, y) {
-        var scale = self.scale;
-        self.canvas.clearRect((x - self.range.xMin)*scale , (y - self.range.yMin)*scale , scale, scale);
-    };
+    this.calculateRange();
 }
+
+Drawer.prototype.zoom = function () {
+    this.scale += 1;
+    this.calculateRange();
+};
+
+Drawer.prototype.dezoom = function () {
+    if (this.scale == this.minScale)
+        return;
+
+    this.scale -= 1;
+    this.calculateRange();
+};
+
+Drawer.prototype.calculateRange = function () {
+    var scaledWidth = Math.abs(this.width / this.scale / 2);
+    var scaledHeight = Math.abs(this.height / this.scale / 2);
+
+    var xFocus = this.focus.x;
+    var yFocus = this.focus.y;
+
+    this.range = {
+        xMax: xFocus + scaledWidth,
+        xMin: xFocus - scaledWidth,
+        yMax: yFocus + scaledHeight,
+        yMin: yFocus - scaledHeight
+    };
+};
+
+Drawer.prototype.isInRange = function (x, y) {
+    return (x > this.range.xMin) && (x < this.range.xMax) && (y > this.range.yMin) && (y < this.range.yMax)
+};
+
+Drawer.prototype.translateX = function (x) {
+    return x - this.range.xMin;
+};
+
+Drawer.prototype.translateY = function (x) {
+    return x - this.range.yMin;
+};
+
+Drawer.prototype.showFocus = function () {
+    var xFocus = this.focus.x;
+    var yFocus = this.focus.y;
+    this.canvas.fillStyle = "rgba(200, 0, 0, 0.5)";
+    this.canvas.fillRect(xFocus, yFocus - 10, 5, 25);
+    this.canvas.fillRect(xFocus - 10, yFocus, 25, 5);
+    this.canvas.fillStyle = "black";
+};
+
+Drawer.prototype.display = function (x, y, alive) {
+    if (this.isInRange(x, y)) {
+        if (alive)
+            this.fill(x, y);
+        else
+            this.clear(x, y);
+    }
+};
+
+Drawer.prototype.fill = function (x, y) {
+    var scale = this.scale;
+    this.canvas.fillRect((x - this.range.xMin) * scale, (y - this.range.yMin) * scale, scale, scale);
+};
+
+Drawer.prototype.clear = function (x, y) {
+    var scale = this.scale;
+    this.canvas.clearRect((x - this.range.xMin) * scale, (y - this.range.yMin) * scale, scale, scale);
+};

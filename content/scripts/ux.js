@@ -1,4 +1,4 @@
-window.addEventListener("load", function() {
+window.addEventListener("load", function () {
     var width = 600,
         height = 600;
 
@@ -16,30 +16,31 @@ window.addEventListener("load", function() {
     var info = document.getElementById("info");
 
 
-    start.addEventListener("click", function(){
-        window.run = setInterval(game.nextGeneration, 50);
+    start.addEventListener("click", function () {
+        window.run = setInterval(function () {
+            game.nextGeneration();
+        }, 50);
         this.disabled = "disabled";
     });
 
-
-    stop.addEventListener('click', function() {
+    stop.addEventListener('click', function () {
         clearInterval(window.run);
         start.disabled = "";
     });
 
-    next.addEventListener('click', function() {
+    next.addEventListener('click', function () {
         var date1 = new Date();
         game.nextGeneration();
         var date2 = new Date();
         info.textContent = "Generation time : " + (date2 - date1);
     });
 
-    zoomin.addEventListener('click', function(){
+    zoomin.addEventListener('click', function () {
         drawer.zoom();
         game.restoreState();
     });
 
-    zoomout.addEventListener('click', function(){
+    zoomout.addEventListener('click', function () {
         drawer.dezoom();
         game.restoreState();
     });
