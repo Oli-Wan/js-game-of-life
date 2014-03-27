@@ -1,5 +1,4 @@
 function GameOfLife(width, height, drawer) {
-    this.scale = 1;
     this.width = width;
     this.height = height;
 
